@@ -13,3 +13,9 @@ addMethod = (name, callback)->
 addMutator = (name, callback)->
 	Mutable::[name] = (args...)->
 		callback.apply @, [@_data].concat args
+
+addTransformer = (name, transform)->
+	Mutable::[name] = (args...)->
+		obj = @
+		values:()->
+			transform.apply obj, args

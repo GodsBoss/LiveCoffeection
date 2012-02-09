@@ -7,6 +7,7 @@ coffee -b -c -p src/core.coffee > $LIBFILE
 echo "exports.Mutable = Mutable;" >> $LIBFILE
 echo "exports.addMethod = addMethod;" >> $LIBFILE
 echo "exports.addMutator = addMutator;" >> $LIBFILE
+echo "exports.addTransformer = addTransformer;" >> $LIBFILE
 
 echo "var LiveCollection = require('./LiveCollection');" > $SPECFILE
 
