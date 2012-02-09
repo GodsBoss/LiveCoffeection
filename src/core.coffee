@@ -1,4 +1,4 @@
 class Mutable
 	constructor:(data)->
 		@values = ->
-			data
+			data.slice()
