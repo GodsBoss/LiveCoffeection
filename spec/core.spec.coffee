@@ -68,3 +68,46 @@ describe "An extension method", ()->
 		collection.someMethod()
 
 		expect(thisValue).toEqual collection
+
+describe "A mutator", ()->
+
+	it "can change the data.", ()->
+
+		LiveCollection.addMutator "changeSecondElementToFive", (data)->
+			data[1] = 5
+
+		collection = new MutableCollection [-8, 3, 6]
+		collection.changeSecondElementToFive()
+
+		expect(collection.values()[1]).toEqual 5
+
+	it "takes arguments.", ()->
+
+		LiveCollection.addMutator "changeFirstElementToSumOf", (data, a, b)->
+			data[0] = a+b
+
+		collection = new MutableCollection [3, 9, 0]
+		collection.changeFirstElementToSumOf -5, 2
+
+		expect(collection.values()[0]).toEqual -3
+
+	it "returns the return value of the mutator callback.", ()->
+
+		returnValue = "Return value"
+
+		LiveCollection.addMutator "justReturn", ()->
+			returnValue
+
+		collection = new MutableCollection []
+		expect(collection.justReturn()).toEqual returnValue
+
+	it "is called within the context of the collection.", ()->
+
+		thisValue = null
+
+		LiveCollection.addMutator "storeThis", ()->
+			thisValue = @
+
+		collection = new MutableCollection []
+		collection.storeThis()
+		expect(thisValue).toEqual collection

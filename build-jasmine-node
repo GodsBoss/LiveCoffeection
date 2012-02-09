@@ -3,6 +3,7 @@
 coffee -b -c -p src/core.coffee > builds/jasmine-node/LiveCollection.js
 echo "exports.Mutable = Mutable;" >> builds/jasmine-node/LiveCollection.js
 echo "exports.addMethod = addMethod;" >> builds/jasmine-node/LiveCollection.js
+echo "exports.addMutator = addMutator;" >> builds/jasmine-node/LiveCollection.js
 
 echo "var LiveCollection = require('./LiveCollection');" > builds/jasmine-node/LiveCollection.spec.js
 
