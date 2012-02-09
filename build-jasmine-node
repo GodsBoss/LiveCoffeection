@@ -1,10 +1,13 @@
 #!/bin/sh
 
-coffee -b -c -p src/core.coffee > builds/jasmine-node/LiveCollection.js
-echo "exports.Mutable = Mutable;" >> builds/jasmine-node/LiveCollection.js
-echo "exports.addMethod = addMethod;" >> builds/jasmine-node/LiveCollection.js
-echo "exports.addMutator = addMutator;" >> builds/jasmine-node/LiveCollection.js
+LIBFILE=builds/jasmine-node/LiveCollection.js
+SPECFILE=builds/jasmine-node/LiveCollection.spec.js
 
-echo "var LiveCollection = require('./LiveCollection');" > builds/jasmine-node/LiveCollection.spec.js
+coffee -b -c -p src/core.coffee > $LIBFILE
+echo "exports.Mutable = Mutable;" >> $LIBFILE
+echo "exports.addMethod = addMethod;" >> $LIBFILE
+echo "exports.addMutator = addMutator;" >> $LIBFILE
 
-coffee -b -c -p spec/core.spec.coffee >> builds/jasmine-node/LiveCollection.spec.js
+echo "var LiveCollection = require('./LiveCollection');" > $SPECFILE
+
+coffee -b -c -p spec/core.spec.coffee >> $SPECFILE
