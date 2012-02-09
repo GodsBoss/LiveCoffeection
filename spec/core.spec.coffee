@@ -22,52 +22,49 @@ describe "Mutable collection", ->
 
 describe "An extension method", ()->
 
-	it "is added to mutable collections.", ()->
+	collection = null
+	argumentLists = null
+	thisValue = null
+	returnValue = null
 
-		LiveCollection.addMethod "someMethod", ()->
+	beforeEach ()->
+		argumentLists = []
+
+		LiveCollection.addMethod "someMethod", (args...)->
+			thisValue = @
+			argumentLists.push args
+			returnValue
 
 		collection = new MutableCollection []
+
+	it "is added to mutable collections.", ()->
 
 		expect(typeof collection.someMethod).toEqual "function"
 
 	it "is called once when the collection's method is called once.", ()->
 
-		calls = 0
-		LiveCollection.addMethod "addCall", ()->
-			calls++
+		collection.someMethod()
 
-		collection = new MutableCollection []
-		collection.addCall()
-
-		expect(calls).toEqual 1
+		expect(argumentLists.length).toEqual 1
 
 	it "is called with the collection's method's call's arguments.", ()->
 
 		collectionCallArgs = [3, -4, 1, 0]
-		callbackCallArgs = null
-		LiveCollection.addMethod "saveArguments", (args...)->
-			callbackCallArgs = args
 
-		collection = new MutableCollection []
-		collection.saveArguments.apply collection, collectionCallArgs
+		collection.someMethod.apply collection, collectionCallArgs
 
-		expect(callbackCallArgs).toEqual collectionCallArgs
+		expect(argumentLists[0]).toEqual collectionCallArgs
 
 	it "lets the collection's method return a result.", ()->
 
 		returnValue = "return"
-		LiveCollection.addMethod "returnSomething", ()->
-			returnValue
 
-		collection = new MutableCollection []
-		result = collection.returnSomething()
+		result = collection.someMethod()
 
 		expect(result).toEqual returnValue
 
 	it "is called in the context of the collection.", ()->
 
-		collection = new MutableCollection []
-		LiveCollection.addMethod "returnThis", ()->
-			@
+		collection.someMethod()
 
-		expect(collection.returnThis()).toEqual collection
+		expect(thisValue).toEqual collection
