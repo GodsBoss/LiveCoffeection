@@ -6,8 +6,17 @@ class Mutable
 		@values = ->
 			data.slice()
 
+class ReadOnly
+	constructor:(parentCollection, transform, args)->
+
+		@values = ->
+			result = transform.apply parentCollection, args
+			result.slice()
+
 addMethod = (name, callback)->
 	Mutable::[name] = (args...)->
+		callback.apply @, args
+	ReadOnly::[name] = (args...)->
 		callback.apply @, args
 
 addMutator = (name, callback)->
@@ -16,7 +25,4 @@ addMutator = (name, callback)->
 
 addTransformer = (name, transform)->
 	Mutable::[name] = (args...)->
-		obj = @
-		values:()->
-			values = transform.apply obj, args
-			values.slice()
+		new ReadOnly @, transform, args

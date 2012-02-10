@@ -13,15 +13,8 @@ includeDataAccess = (data, collection)->
 
 		expect(collection.values()[0]).toEqual firstValue
 
-describe "Mutable collection", ->
 
-	data = [1, -5, 3]
-
-	collection = new MutableCollection data
-
-	includeDataAccess data, collection
-
-describe "An extension method", ()->
+includeExtensionMethod = (createCollection)->
 
 	collection = null
 	argumentLists = null
@@ -36,9 +29,9 @@ describe "An extension method", ()->
 			argumentLists.push args
 			returnValue
 
-		collection = new MutableCollection []
+		collection = createCollection()
 
-	it "is added to mutable collections.", ()->
+	it "is added to collections.", ()->
 
 		expect(typeof collection.someMethod).toEqual "function"
 
@@ -69,6 +62,17 @@ describe "An extension method", ()->
 		collection.someMethod()
 
 		expect(thisValue).toEqual collection
+
+describe "Mutable collection", ->
+
+	data = [1, -5, 3]
+
+	collection = new MutableCollection data
+
+	includeDataAccess data, collection
+
+	includeExtensionMethod ()->
+		new MutableCollection []
 
 describe "A mutator", ()->
 
@@ -156,3 +160,7 @@ describe "A transformation method", ()->
 		collection = new MutableCollection []
 
 		includeDataAccess data, collection.transform()
+
+		includeExtensionMethod ()->
+			collection = new MutableCollection []
+			collection.transform()
