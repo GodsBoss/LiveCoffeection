@@ -118,35 +118,38 @@ describe "A mutator", ()->
 
 describe "A transformation method", ()->
 
+	collection = null
+	argumentLists = null
+	thisValue = null
+	returnValue = null
+
+	beforeEach ()->
+		argumentLists = []
+		thisValue = null
+		returnValue = []
+
+		LiveCollection.addTransformer "transform", (args...)->
+			argumentLists.push args
+			thisValue = @
+			return returnValue
+
+		collection = new MutableCollection []
+
 	it "does not call the transformer without a call to values().", ()->
 
-		called = false
-		LiveCollection.addTransformer "notCalled", ()->
-
-		expect(called).toBeFalsy()
+		expect(argumentLists.length).toEqual 0
 
 	it "passes the arguments to the transform callback.", ()->
 
-		transformArgs = null
-		callArgs = [-4, 0, 2]
-		LiveCollection.addTransformer "storeArgs", (args...)->
-			transformArgs = args
-
-		collection = new MutableCollection []
-		transformedCollection = collection.storeArgs.apply collection, callArgs
+		args = [-4, 0, 2]
+		transformedCollection = collection.transform.apply collection, args
 		transformedCollection.values()
 
-		expect(transformArgs).toEqual callArgs
+		expect(argumentLists[0]).toEqual args
 
 	it "is called within the context of the collection.", ()->
 
-		thisValue = null
-		LiveCollection.addTransformer "storeThis", ()->
-			thisValue = @
-			[]
-
-		collection = new MutableCollection []
-		collection.storeThis().values()
+		collection.transform().values()
 
 		expect(thisValue).toEqual collection
 
