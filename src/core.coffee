@@ -18,4 +18,5 @@ addTransformer = (name, transform)->
 	Mutable::[name] = (args...)->
 		obj = @
 		values:()->
-			transform.apply obj, args
+			values = transform.apply obj, args
+			values.slice()
