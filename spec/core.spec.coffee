@@ -13,7 +13,6 @@ includeDataAccess = (data, collection)->
 
 		expect(collection.values()[0]).toEqual firstValue
 
-
 includeExtensionMethod = (createCollection)->
 
 	collection = null
