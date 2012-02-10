@@ -147,7 +147,7 @@ describe "A transformation method", ()->
 
 		expect(thisValue).toEqual collection
 
-	describe "Collection created via a transform method.", ()->
+	describe "Collection created via a transform method", ()->
 
 		data = [8, 3, 0]
 		LiveCollection.addTransformer "transform", ()->
