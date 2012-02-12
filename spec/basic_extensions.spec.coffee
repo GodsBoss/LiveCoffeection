@@ -61,3 +61,19 @@ describe "Standard mutators", ()->
 			collection = new MutableCollection [3, 5, -1]
 
 			expect(collection.push(3)).toEqual 4
+
+	describe "Unshift", ()->
+
+		it "adds a value to the beginning of the collection.", ()->
+
+			collection = new MutableCollection [8, -4, 2]
+
+			collection.unshift 0
+
+			expect(collection.values()).toEqual [0, 8, -4, 2]
+
+		it "returns the new length of the collection.", ()->
+
+			collection = new MutableCollection [2, -8]
+
+			expect(collection.unshift 8).toEqual 3
