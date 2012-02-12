@@ -42,6 +42,23 @@ describe "Standard methods", ()->
 
 			expect(tryToGetWithIndexTooHigh).toThrow "Index out of range."
 
+	describe "First", ()->
+
+		it "throws 'Index out of range.' for an empty collection.", ()->
+
+			collection = new MutableCollection []
+
+			tryToGetFirstFromEmptyCollection = ()->
+				collection.first()
+
+			expect(tryToGetFirstFromEmptyCollection).toThrow "Index out of range."
+
+		it "returns the first value of a non-empty collection.", ()->
+
+			collection = new MutableCollection [3, 8, -2]
+
+			expect(collection.first()).toEqual 3
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->

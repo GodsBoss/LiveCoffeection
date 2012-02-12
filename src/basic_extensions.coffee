@@ -12,6 +12,13 @@ extend = (LiveCollection)->
 
 		@values()[index]
 
+	LiveCollection.addMethod "first", ()->
+
+		if @values().length is 0
+			throw new Error "Index out of range."
+
+		@values()[0]
+
 	LiveCollection.addMutator "pop", (data)->
 
 		data.pop()
