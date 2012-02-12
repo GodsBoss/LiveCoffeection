@@ -1,5 +1,21 @@
 MutableCollection = LiveCollection.Mutable
 
+describe "Standard methods", ()->
+
+	describe "Length", ()->
+
+		it "returns zero for an empty collection.", ()->
+
+			collection = new MutableCollection []
+
+			expect(collection.length()).toEqual 0
+
+		it "returns the length of a collection.", ()->
+
+			collection = new MutableCollection [3, -1, 0, 2, 5]
+
+			expect(collection.length()).toEqual 5
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->

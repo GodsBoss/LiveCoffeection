@@ -1,5 +1,9 @@
 extend = (LiveCollection)->
 
+	LiveCollection.addMethod "length", ()->
+
+		@values().length
+
 	LiveCollection.addMutator "pop", (data)->
 
 		data.pop()
