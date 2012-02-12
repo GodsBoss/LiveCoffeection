@@ -1,14 +1,16 @@
 extend = (LiveCollection)->
 
+	throwIfIndexOutOfRange = (index)->
+		if index<0 or index>=@length()
+			throw new Error "Index out of range."
+
 	LiveCollection.addMethod "length", ()->
 
 		@values().length
 
 	LiveCollection.addMethod "get", (index)->
 
-		if index < 0 or index >= @values().length
-
-			throw new Error "Index out of range."
+		throwIfIndexOutOfRange.call @, index
 
 		@values()[index]
 
@@ -42,8 +44,6 @@ extend = (LiveCollection)->
 
 	LiveCollection.addMutator "set", (data, index, value)->
 
-		if index < 0 or index >= data.length
-
-			throw new Error "Index out of range."
+		throwIfIndexOutOfRange.call @, index
 
 		data[index] = value
