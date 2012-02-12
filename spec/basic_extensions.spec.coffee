@@ -45,3 +45,19 @@ describe "Standard mutators", ()->
 			collection.shift()
 
 			expect(collection.values()).toEqual [2, -7, 3, 0]
+
+	describe "Push", ()->
+
+		it "adds a value to the end of the collection.", ()->
+
+			collection = new MutableCollection [3, -1, 0]
+
+			collection.push -3
+
+			expect(collection.values()).toEqual [3, -1, 0, -3]
+
+		it "returns the new length of the collection.", ()->
+
+			collection = new MutableCollection [3, 5, -1]
+
+			expect(collection.push(3)).toEqual 4
