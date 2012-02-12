@@ -3,6 +3,9 @@
 LIBFILE=builds/jasmine-node/LiveCollection.js
 SPECFILE=builds/jasmine-node/LiveCollection.spec.js
 
+EXTFILE=builds/jasmine-node/basic_extensions.js
+EXTSPECFILE=builds/jasmine-node/basic_extensions.spec.js
+
 coffee -b -c -p src/core.coffee > $LIBFILE
 echo "exports.Mutable = Mutable;" >> $LIBFILE
 echo "exports.addMethod = addMethod;" >> $LIBFILE
@@ -12,3 +15,11 @@ echo "exports.addTransformer = addTransformer;" >> $LIBFILE
 echo "var LiveCollection = require('./LiveCollection');" > $SPECFILE
 
 coffee -b -c -p spec/core.spec.coffee >> $SPECFILE
+
+coffee -b -c -p src/basic_extensions.coffee > $EXTFILE
+echo "exports.extend = extend;" >> $EXTFILE
+
+echo "var LiveCollection = require('./LiveCollection');" > $EXTSPECFILE
+echo "require('./basic_extensions').extend(LiveCollection);" >> $EXTSPECFILE
+
+coffee -b -c -p spec/basic_extensions.spec.coffee >> $EXTSPECFILE
