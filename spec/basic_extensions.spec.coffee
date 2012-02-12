@@ -23,3 +23,25 @@ describe "Standard mutators", ()->
 			collection.pop()
 
 			expect(collection.values()).toEqual [3, 6, -2]
+
+	describe "shift", ()->
+
+		it "returns undefined for an empty collection.", ()->
+
+			collection = new MutableCollection []
+
+			expect(collection.shift()).toBeUndefined()
+
+		it "returns the first item of a collection.", ()->
+
+			collection = new MutableCollection [7, -3, 0, 4]
+
+			expect(collection.shift()).toEqual 7
+
+		it "removes the first item from the collection.", ()->
+
+			collection = new MutableCollection [4, 2, -7, 3, 0]
+
+			collection.shift()
+
+			expect(collection.values()).toEqual [2, -7, 3, 0]
