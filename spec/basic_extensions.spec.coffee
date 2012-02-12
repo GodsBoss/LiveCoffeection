@@ -60,7 +60,7 @@ describe "Standard mutators", ()->
 
 			collection = new MutableCollection [3, 5, -1]
 
-			expect(collection.push(3)).toEqual 4
+			expect(collection.push 3).toEqual 4
 
 	describe "Unshift", ()->
 

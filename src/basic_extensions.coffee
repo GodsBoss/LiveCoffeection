@@ -10,7 +10,7 @@ extend = (LiveCollection)->
 
 	LiveCollection.addMutator "push", (data, value)->
 
-		data.push(value)
+		data.push value
 
 	LiveCollection.addMutator "unshift", (data, value)->
 
