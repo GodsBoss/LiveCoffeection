@@ -4,6 +4,14 @@ extend = (LiveCollection)->
 
 		@values().length
 
+	LiveCollection.addMethod "get", (index)->
+
+		if index < 0 or index >= @values().length
+
+			throw new Error "Index out of range."
+
+		@values()[index]
+
 	LiveCollection.addMutator "pop", (data)->
 
 		data.pop()

@@ -16,6 +16,32 @@ describe "Standard methods", ()->
 
 			expect(collection.length()).toEqual 5
 
+	describe "Get", ()->
+
+		it "returns the value of an item.", ()->
+
+			collection = new MutableCollection [-6, 7, 3, 4]
+
+			expect(collection.get 2).toEqual 3
+
+		it "throws 'Index out of range.' for negative indizes.", ()->
+
+			collection = new MutableCollection [-2, 0]
+
+			tryToGetWithNegativeIndex = ()->
+				collection.get -3
+
+			expect(tryToGetWithNegativeIndex).toThrow "Index out of range."
+
+		it "throws 'Index out of range.' for an index too high.", ()->
+
+			collection = new MutableCollection [6, -8, 3 ,0]
+
+			tryToGetWithIndexTooHigh = ()->
+				collection.get 4
+
+			expect(tryToGetWithIndexTooHigh).toThrow "Index out of range."
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->
