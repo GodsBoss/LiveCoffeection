@@ -116,7 +116,7 @@ describe "A mutator", ()->
 		collection.storeThis()
 		expect(thisValue).toEqual collection
 
-describe "A transformation method", ()->
+includeTransformationMethod = (createCollection)->
 
 	collection = null
 	argumentLists = null
@@ -133,7 +133,7 @@ describe "A transformation method", ()->
 			thisValue = @
 			return returnValue
 
-		collection = new MutableCollection []
+		collection = createCollection()
 
 	it "does not call the transformer without a call to values().", ()->
 
@@ -152,6 +152,11 @@ describe "A transformation method", ()->
 		collection.transform().values()
 
 		expect(thisValue).toEqual collection
+
+describe "Transformation method on mutable collection", ()->
+
+	includeTransformationMethod ()->
+		new MutableCollection
 
 	describe "Collection created via a transform method", ()->
 
