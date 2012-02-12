@@ -15,3 +15,7 @@ extend = (LiveCollection)->
 	LiveCollection.addMutator "unshift", (data, value)->
 
 		data.unshift value
+
+	LiveCollection.addMutator "clear", (data)->
+
+		data.length = 0

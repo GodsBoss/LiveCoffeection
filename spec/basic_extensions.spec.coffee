@@ -77,3 +77,19 @@ describe "Standard mutators", ()->
 			collection = new MutableCollection [2, -8]
 
 			expect(collection.unshift 8).toEqual 3
+
+	describe "Clear", ()->
+
+		it "deletes all elements.", ()->
+
+			collection = new MutableCollection [3, -1, -3, 0, 99]
+
+			collection.clear()
+
+			expect(collection.values()).toEqual []
+
+		it "returns the new length of the collection, zero.", ()->
+
+			collection = new MutableCollection [3, 4]
+
+			expect(collection.clear()).toEqual 0
