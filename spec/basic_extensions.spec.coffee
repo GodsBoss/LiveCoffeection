@@ -59,6 +59,23 @@ describe "Standard methods", ()->
 
 			expect(collection.first()).toEqual 3
 
+	describe "Last", ()->
+
+		it "throws 'Index out of range.' for an empty collection.", ()->
+
+			collection = new MutableCollection []
+
+			tryToGetLastFromEmptyCollection = ()->
+				collection.last()
+
+			expect(tryToGetLastFromEmptyCollection).toThrow "Index out of range."
+
+		it "returns the last value of a non-empty collection.", ()->
+
+			collection = new MutableCollection [6, -3, 0, 4]
+
+			expect(collection.last()).toEqual 4
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->

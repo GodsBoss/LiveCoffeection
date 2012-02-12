@@ -19,6 +19,13 @@ extend = (LiveCollection)->
 
 		@values()[0]
 
+	LiveCollection.addMethod "last", ()->
+
+		if @values().length is 0
+			throw new Error "Index out of range."
+
+		@values()[@values().length-1]
+
 	LiveCollection.addMutator "pop", (data)->
 
 		data.pop()
