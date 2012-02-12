@@ -14,17 +14,11 @@ extend = (LiveCollection)->
 
 	LiveCollection.addMethod "first", ()->
 
-		if @values().length is 0
-			throw new Error "Index out of range."
-
-		@values()[0]
+		@get 0
 
 	LiveCollection.addMethod "last", ()->
 
-		if @values().length is 0
-			throw new Error "Index out of range."
-
-		@values()[@values().length-1]
+		@get @length() - 1
 
 	LiveCollection.addMutator "pop", (data)->
 
