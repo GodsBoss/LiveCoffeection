@@ -109,3 +109,31 @@ describe "Standard mutators", ()->
 			collection = new MutableCollection [3, 4]
 
 			expect(collection.clear()).toEqual 0
+
+	describe "Set", ()->
+
+		it "sets the value of an item.", ()->
+
+			collection = new MutableCollection [-8, 7, 3, 9]
+
+			collection.set 1, 5
+
+			expect(collection.values()[1]).toEqual 5
+
+		it "throws 'Index out of range.' if index is too low.", ()->
+
+			collection = new MutableCollection [4, 5]
+
+			tryToSetWithNegativeIndex = ()->
+				collection.set -3, 5
+
+			expect(tryToSetWithNegativeIndex).toThrow "Index out of range."
+
+		it "throws 'Index out of range.', if index is too high.", ()->
+
+			collection = new MutableCollection [2, -6, 3]
+
+			tryToSetWithIndexTooHigh = ()->
+				collection.set 3, 0
+
+			expect(tryToSetWithIndexTooHigh).toThrow "Index out of range."

@@ -23,3 +23,11 @@ extend = (LiveCollection)->
 	LiveCollection.addMutator "clear", (data)->
 
 		data.length = 0
+
+	LiveCollection.addMutator "set", (data, index, value)->
+
+		if index < 0 or index >= data.length
+
+			throw new Error "Index out of range."
+
+		data[index] = value
