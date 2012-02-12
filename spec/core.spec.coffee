@@ -171,3 +171,9 @@ describe "Transformation method on mutable collection", ()->
 		includeExtensionMethod ()->
 			collection = new MutableCollection []
 			collection.transform()
+
+describe "Transformation method on read-only collection created by transformation", ()->
+
+	includeTransformationMethod ()->
+		mutable = new MutableCollection []
+		mutable.transform()

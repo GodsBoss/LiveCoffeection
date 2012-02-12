@@ -26,3 +26,5 @@ addMutator = (name, callback)->
 addTransformer = (name, transform)->
 	Mutable::[name] = (args...)->
 		new ReadOnly @, transform, args
+	ReadOnly::[name] = (args...)->
+		new ReadOnly @, transform, args
