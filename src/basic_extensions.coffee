@@ -63,3 +63,6 @@ extend = (LiveCollection)->
 
 	LiveCollection.addTransformer "head", (length)->
 		@values().slice 0, length
+
+	LiveCollection.addTransformer "tail", (length)->
+		@values().slice @values().length-length
