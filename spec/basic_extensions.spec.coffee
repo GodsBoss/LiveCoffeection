@@ -55,6 +55,20 @@ describe "Standard methods", ()->
 			collection = new MutableCollection [6, -3, 0, 4]
 			expect(collection.last()).toEqual 4
 
+	describe "Join", ()->
+
+		it "returns an empty string for an empty collection.", ()->
+			collection = new MutableCollection []
+			expect(collection.join()).toEqual ""
+
+		it "uses a comma as standard separator.", ()->
+			collection = new MutableCollection [5, 2, 0]
+			expect(collection.join()).toEqual "5,2,0"
+
+		it "lets the client choose another separator.", ()->
+			collection = new MutableCollection [8, 2, 0]
+			expect(collection.join "; ").toEqual "8; 2; 0"
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->

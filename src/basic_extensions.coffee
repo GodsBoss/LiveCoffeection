@@ -17,6 +17,9 @@ extend = (LiveCollection)->
 	LiveCollection.addMethod "last", ()->
 		@get @length() - 1
 
+	LiveCollection.addMethod "join", (separator = ",")->
+		@values().join(separator)
+
 	LiveCollection.addMutator "pop", (data)->
 		data.pop()
 
