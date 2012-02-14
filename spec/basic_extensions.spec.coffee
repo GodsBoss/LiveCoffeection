@@ -138,3 +138,31 @@ describe "Standard mutators", ()->
 			tryToSetWithIndexTooHigh = ()->
 				collection.set 3, 0
 			expect(tryToSetWithIndexTooHigh).toThrow "Index out of range."
+
+	describe "Remove", ()->
+
+		it "lets all items before the removed item unchanged.", ()->
+			collection = new MutableCollection [3, 5, -2, 8, 9]
+			collection.remove 3
+			expect(collection.values().slice 0, 3).toEqual [3, 5, -2]
+
+		it "moves all items after the removed item to avoid a gap.", ()->
+			collection = new MutableCollection [-4, 2, 0, 8, 3]
+			collection.remove 2
+			expect(collection.values().slice 2).toEqual [8, 3]
+
+		it "returns the item which was removed.", ()->
+			collection = new MutableCollection [5, 3, -9, 0, -2]
+			expect(collection.remove 2).toEqual -9
+
+		it "throws 'Index out of range.' if index is negative.", ()->
+			collection = new MutableCollection []
+			tryToRemoveItemWithNegativeIndex = ()->
+				collection.remove -2
+			expect(tryToRemoveItemWithNegativeIndex).toThrow "Index out of range."
+
+		it "throws 'Index out of range.' if index is too high.", ()->
+			collection = new MutableCollection [-8, -3, -4]
+			tryToRemoveItemWithIndexTooHigh = ()->
+				collection.remove 4
+			expect(tryToRemoveItemWithIndexTooHigh).toThrow "Index out of range."

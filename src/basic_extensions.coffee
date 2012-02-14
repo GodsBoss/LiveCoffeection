@@ -47,3 +47,11 @@ extend = (LiveCollection)->
 		throwIfIndexOutOfRange.call @, index
 
 		data[index] = value
+
+	LiveCollection.addMutator "remove", (data, index)->
+		throwIfIndexOutOfRange.call @, index
+		removedItem = data[index]
+		for i in [index..data.length-2]
+			data[i]=data[i+1]
+		data.pop()
+		removedItem
