@@ -141,15 +141,10 @@ describe "Standard mutators", ()->
 
 	describe "Remove", ()->
 
-		it "lets all items before the removed item unchanged.", ()->
+		it "removes an item.", ()->
 			collection = new MutableCollection [3, 5, -2, 8, 9]
 			collection.remove 3
-			expect(collection.values().slice 0, 3).toEqual [3, 5, -2]
-
-		it "moves all items after the removed item to avoid a gap.", ()->
-			collection = new MutableCollection [-4, 2, 0, 8, 3]
-			collection.remove 2
-			expect(collection.values().slice 2).toEqual [8, 3]
+			expect(collection.values()).toEqual [3, 5, -2, 9]
 
 		it "returns the item which was removed.", ()->
 			collection = new MutableCollection [5, 3, -9, 0, -2]
@@ -169,20 +164,10 @@ describe "Standard mutators", ()->
 
 	describe "Insert after", ()->
 
-		it "lets all items before the inserted element unchanged.", ()->
-			collection = new MutableCollection [3, 6, -8, 0]
-			collection.insertAfter 1, 5
-			expect(collection.values().slice 0, 2).toEqual [3, 6]
-
-		it "moves all subsequent elements to a position with a higher index.", ()->
-			collection = new MutableCollection [7, -3, -4, 1]
-			collection.insertAfter 1, 6
-			expect(collection.values().slice 3).toEqual [-4, 1]
-
 		it "inserts the element after the given index.", ()->
 			collection = new MutableCollection [2, 8, -4, -5]
 			collection.insertAfter 2, 0
-			expect(collection.values()[3]).toEqual 0
+			expect(collection.values()).toEqual [2, 8, -4, 0, -5]
 
 		it "returns the new length of the collection.", ()->
 			collection = new MutableCollection [3, 6, 2]
@@ -207,20 +192,10 @@ describe "Standard mutators", ()->
 
 	describe "Insert before", ()->
 
-		it "leaves items before the inserted element untouched.", ()->
-			collection = new MutableCollection [6, -7, 2, 3, 9]
-			collection.insertBefore 3, 5
-			expect(collection.values().slice 0, 3).toEqual [6, -7, 2]
-
-		it "moves subsequent items to a higher index.", ()->
-			collection = new MutableCollection [0, 4, -2, 9, 1]
-			collection.insertBefore 2, -7
-			expect(collection.values().slice 3).toEqual [-2, 9, 1]
-
 		it "inserts the given value before the position of index.", ()->
 			collection = new MutableCollection [3, -8, -9]
 			collection.insertBefore 1, 5
-			expect(collection.values()[1]).toEqual 5
+			expect(collection.values()).toEqual [3, 5, -8, -9]
 
 		it "inserts an item even before the index after the last index.", ()->
 			collection = new MutableCollection [4, 0, -3]
