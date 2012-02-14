@@ -69,3 +69,8 @@ extend = (LiveCollection)->
 			data[i]=data[i-1]
 		data[index]=value
 		data.length
+
+	LiveCollection.addMutator "replace", (data, index, values)->
+		throwIfIndexOutOfRange.call @, index, 0, data.length+1
+		for i in [0..values.length-1]
+			data[index+i] = values[i]

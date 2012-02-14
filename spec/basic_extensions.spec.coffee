@@ -242,3 +242,32 @@ describe "Standard mutators", ()->
 		it "returns the new length of the collection.", ()->
 			collection = new MutableCollection [5, 2, 0, 3]
 			expect(collection.insertBefore 2, 8).toEqual 5
+
+	describe "Replace", ()->
+
+		it "replaces all items with the given values.", ()->
+			collection = new MutableCollection [7, 3, 8, 2, 0, 9]
+			collection.replace 2, [-4, -5]
+			expect(collection.values()).toEqual [7, 3, -4, -5, 0, 9]
+
+		it "extends the collection if the replacement item list exceeds it.", ()->
+			collection = new MutableCollection [5, -2, -5, 0]
+			collection.replace 2, [8, -1, 3, 6]
+			expect(collection.values()).toEqual [5, -2, 8, -1, 3, 6]
+
+		it "appends the list if the index is directly after the last item.", ()->
+			collection = new MutableCollection [3, 9]
+			collection.replace 2, [-1, 0]
+			expect(collection.values()).toEqual [3, 9, -1, 0]
+
+		it "throws 'Index out of range.' if the index is negative.", ()->
+			collection = new MutableCollection [5]
+			tryToReplaceWithNegativeIndex = ()->
+				collection.replace -1, [5, 6]
+			expect(tryToReplaceWithNegativeIndex).toThrow "Index out of range."
+
+		it "throws 'Index out of range.' if the index is too high.", ()->
+			collection = new MutableCollection [0, 4, 2]
+			tryToReplaceWithIndexTooHigh = ()->
+				collection.replace 4, [-9, -8]
+			expect(tryToReplaceWithIndexTooHigh).toThrow "Index out of range."
