@@ -13,18 +13,18 @@ class ReadOnly
 			result = transform.apply parentCollection, args
 			result.slice()
 
-addMethod = (name, callback)->
-	Mutable::[name] = (args...)->
-		callback.apply @, args
-	ReadOnly::[name] = (args...)->
-		callback.apply @, args
+addToBoth = (name, callback)->
+	Mutable::[name] = callback
+	ReadOnly::[name] = callback
 
-addMutator = (name, callback)->
+addMethod = (name, method)->
+	addToBoth name, (args...)->
+		method.apply @, args
+
+addMutator = (name, mutate)->
 	Mutable::[name] = (args...)->
-		callback.apply @, [@_data].concat args
+		mutate.apply @, [@_data].concat args
 
 addTransformer = (name, transform)->
-	Mutable::[name] = (args...)->
-		new ReadOnly @, transform, args
-	ReadOnly::[name] = (args...)->
+	addToBoth name, (args...)->
 		new ReadOnly @, transform, args
