@@ -1,7 +1,7 @@
 extend = (LiveCollection)->
 
-	throwIfIndexOutOfRange = (index)->
-		if index<0 or index>=@length()
+	throwIfIndexOutOfRange = (index, lesserBound = 0, upperBound = @length())->
+		if index<lesserBound or index>=upperBound
 			throw new Error "Index out of range."
 
 	LiveCollection.addMethod "length", ()->
@@ -55,3 +55,17 @@ extend = (LiveCollection)->
 			data[i]=data[i+1]
 		data.pop()
 		removedItem
+
+	LiveCollection.addMutator "insertAfter", (data, index, value)->
+		throwIfIndexOutOfRange.call @, index, -1
+		for i in [data.length..index+1]
+			data[i]=data[i-1]
+		data[index+1]=value
+		data.length
+
+	LiveCollection.addMutator "insertBefore", (data, index, value)->
+		throwIfIndexOutOfRange.call @, index, 0, data.length+1
+		for i in [data.length..index]
+			data[i]=data[i-1]
+		data[index]=value
+		data.length

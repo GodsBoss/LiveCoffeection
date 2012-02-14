@@ -166,3 +166,79 @@ describe "Standard mutators", ()->
 			tryToRemoveItemWithIndexTooHigh = ()->
 				collection.remove 4
 			expect(tryToRemoveItemWithIndexTooHigh).toThrow "Index out of range."
+
+	describe "Insert after", ()->
+
+		it "lets all items before the inserted element unchanged.", ()->
+			collection = new MutableCollection [3, 6, -8, 0]
+			collection.insertAfter 1, 5
+			expect(collection.values().slice 0, 2).toEqual [3, 6]
+
+		it "moves all subsequent elements to a position with a higher index.", ()->
+			collection = new MutableCollection [7, -3, -4, 1]
+			collection.insertAfter 1, 6
+			expect(collection.values().slice 3).toEqual [-4, 1]
+
+		it "inserts the element after the given index.", ()->
+			collection = new MutableCollection [2, 8, -4, -5]
+			collection.insertAfter 2, 0
+			expect(collection.values()[3]).toEqual 0
+
+		it "returns the new length of the collection.", ()->
+			collection = new MutableCollection [3, 6, 2]
+			expect(collection.insertAfter 1, 9).toEqual 4
+
+		it "allows inserting after an index of -1.", ()->
+			collection = new MutableCollection [3, 6]
+			collection.insertAfter -1, 8
+			expect(collection.values()[0]).toEqual 8
+
+		it "throws 'Index out of range.' for an index lesser than -1.", ()->
+			collection = new MutableCollection []
+			tryToInsertAfterIndexTooLow = ()->
+				collection.insertAfter -2, 5
+			expect(tryToInsertAfterIndexTooLow).toThrow "Index out of range."
+
+		it "throws 'Index out of range.' for an index too high.", ()->
+			collection = new MutableCollection [-5, 8, 0]
+			tryToInsertAfterIndexTooHigh = ()->
+				collection.insertAfter 3, 7
+			expect(tryToInsertAfterIndexTooHigh).toThrow "Index out of range."
+
+	describe "Insert before", ()->
+
+		it "leaves items before the inserted element untouched.", ()->
+			collection = new MutableCollection [6, -7, 2, 3, 9]
+			collection.insertBefore 3, 5
+			expect(collection.values().slice 0, 3).toEqual [6, -7, 2]
+
+		it "moves subsequent items to a higher index.", ()->
+			collection = new MutableCollection [0, 4, -2, 9, 1]
+			collection.insertBefore 2, -7
+			expect(collection.values().slice 3).toEqual [-2, 9, 1]
+
+		it "inserts the given value before the position of index.", ()->
+			collection = new MutableCollection [3, -8, -9]
+			collection.insertBefore 1, 5
+			expect(collection.values()[1]).toEqual 5
+
+		it "inserts an item even before the index after the last index.", ()->
+			collection = new MutableCollection [4, 0, -3]
+			collection.insertBefore 3, 9
+			expect(collection.values()[3]).toEqual 9
+
+		it "throws 'Index out of range.' for a negative index.", ()->
+			collection = new MutableCollection [6, -2]
+			tryToInsertBeforeNegativeIndex = ()->
+				collection.insertBefore -1, 5
+			expect(tryToInsertBeforeNegativeIndex).toThrow "Index out of range."
+
+		it "throws 'Index out of range.' for an index too high.", ()->
+			collection = new MutableCollection [7, 4, -5]
+			tryToInsertBeforeIndexTooHigh = ()->
+				collection.insertBefore 4, 9
+			expect(tryToInsertBeforeIndexTooHigh).toThrow "Index out of range."
+
+		it "returns the new length of the collection.", ()->
+			collection = new MutableCollection [5, 2, 0, 3]
+			expect(collection.insertBefore 2, 8).toEqual 5
