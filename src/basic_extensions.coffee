@@ -20,6 +20,12 @@ extend = (LiveCollection)->
 	LiveCollection.addMethod "join", (separator = ",")->
 		@values().join(separator)
 
+	LiveCollection.addMethod "contains", (item)->
+		for value in @values()
+			if item is value
+				return true
+		false
+
 	LiveCollection.addMutator "pop", (data)->
 		data.pop()
 

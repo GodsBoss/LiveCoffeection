@@ -69,6 +69,16 @@ describe "Standard methods", ()->
 			collection = new MutableCollection [8, 2, 0]
 			expect(collection.join "; ").toEqual "8; 2; 0"
 
+	describe "Contains", ()->
+
+		it "returns false if the item is not contained in the collection.", ()->
+			collection = new MutableCollection [false, null, 1]
+			expect(collection.contains 0).toEqual false
+
+		it "returns true if the item is contained in the collection.", ()->
+			collection = new MutableCollection [8, "hello"]
+			expect(collection.contains 8).toEqual true
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->
