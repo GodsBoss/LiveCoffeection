@@ -270,3 +270,19 @@ describe "Standard mutators", ()->
 			tryToReplaceWithIndexTooHigh = ()->
 				collection.replace 4, [-9, -8]
 			expect(tryToReplaceWithIndexTooHigh).toThrow "Index out of range."
+
+describe "Standard transformations.", ()->
+
+	describe "Head", ()->
+
+		it "returns an empty collection if zero elements are desired.", ()->
+			collection = new MutableCollection [3, 0, 5]
+			expect(collection.head(0).values()).toEqual []
+
+		it "takes the first items of a collection.", ()->
+			collection = new MutableCollection [1, 0, 5, 8]
+			expect(collection.head(2).values()).toEqual [1, 0]
+
+		it "takes all items if more are to be taken than are contained.", ()->
+			collection = new MutableCollection [-4, 5, 0]
+			expect(collection.head(10).values()).toEqual [-4, 5, 0]

@@ -60,3 +60,6 @@ extend = (LiveCollection)->
 	LiveCollection.addMutator "replace", (data, index, values)->
 		throwIfIndexOutOfRange.call @, index, 0, data.length+1
 		data[index..index+values.length-1] = values
+
+	LiveCollection.addTransformer "head", (length)->
+		@values().slice 0, length
