@@ -65,4 +65,4 @@ extend = (LiveCollection)->
 		@values().slice 0, length
 
 	LiveCollection.addTransformer "tail", (length)->
-		@values().slice @values().length-length
+		@values().slice Math.max 0, @values().length-length

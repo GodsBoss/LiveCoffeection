@@ -273,30 +273,30 @@ describe "Standard mutators", ()->
 
 describe "Standard transformations.", ()->
 
+	values = [-4, 0, 8, -3, 3, 9]
+	collection = null
+
+	beforeEach ()->
+		collection = new MutableCollection values
+
 	describe "Head", ()->
 
 		it "returns an empty collection if zero elements are desired.", ()->
-			collection = new MutableCollection [3, 0, 5]
 			expect(collection.head(0).values()).toEqual []
 
 		it "takes the first items of a collection.", ()->
-			collection = new MutableCollection [1, 0, 5, 8]
-			expect(collection.head(2).values()).toEqual [1, 0]
+			expect(collection.head(2).values()).toEqual values[0..1]
 
 		it "takes all items if more are to be taken than are contained.", ()->
-			collection = new MutableCollection [-4, 5, 0]
-			expect(collection.head(10).values()).toEqual [-4, 5, 0]
+			expect(collection.head(10).values()).toEqual values
 
 	describe "Tail", ()->
 
 		it "returns an empty collection if zero elements are desired.", ()->
-			collection = new MutableCollection [6, -7, 8]
 			expect(collection.tail(0).values()).toEqual []
 
 		it "takes the last items of a collection.", ()->
-			collection = new MutableCollection [3, 0, 5, 1, 2]
-			expect(collection.tail(3).values()).toEqual [5, 1, 2]
+			expect(collection.tail(3).values()).toEqual values[-3..]
 
 		it "takes all items if more are to be taken than are contained.", ()->
-			collection = new MutableCollection [-4, -2, -9]
-			expect(collection.tail(8).values()).toEqual [-4, -2, -9]
+			expect(collection.tail(8).values()).toEqual values
