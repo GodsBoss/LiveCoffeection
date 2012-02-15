@@ -2,151 +2,124 @@ MutableCollection = LiveCollection.Mutable
 
 describe "Standard methods", ()->
 
+	values = [3, -1, 0, 2, 5]
+	collection = null
+	emptyCollection = new MutableCollection []
+
+	beforeEach ()->
+		collection = new MutableCollection values
+
 	describe "Length", ()->
 
 		it "returns zero for an empty collection.", ()->
-			collection = new MutableCollection []
-			expect(collection.length()).toEqual 0
+			expect(emptyCollection.length()).toEqual 0
 
 		it "returns the length of a collection.", ()->
-			collection = new MutableCollection [3, -1, 0, 2, 5]
-			expect(collection.length()).toEqual 5
+			expect(collection.length()).toEqual values.length
 
 	describe "Get", ()->
 
 		it "returns the value of an item.", ()->
-			collection = new MutableCollection [-6, 7, 3, 4]
-			expect(collection.get 2).toEqual 3
+			expect(collection.get 2).toEqual values[2]
 
 		it "throws 'Index out of range.' for negative indizes.", ()->
-			collection = new MutableCollection [-2, 0]
 			tryToGetWithNegativeIndex = ()->
 				collection.get -3
-
 			expect(tryToGetWithNegativeIndex).toThrow "Index out of range."
 
 		it "throws 'Index out of range.' for an index too high.", ()->
-			collection = new MutableCollection [6, -8, 3 ,0]
 			tryToGetWithIndexTooHigh = ()->
-				collection.get 4
+				collection.get values.length+3
 			expect(tryToGetWithIndexTooHigh).toThrow "Index out of range."
 
 	describe "First", ()->
 
 		it "throws 'Index out of range.' for an empty collection.", ()->
-			collection = new MutableCollection []
-			tryToGetFirstFromEmptyCollection = ()->
-				collection.first()
-			expect(tryToGetFirstFromEmptyCollection).toThrow "Index out of range."
+			expect(()->emptyCollection.first()).toThrow "Index out of range."
 
 		it "returns the first value of a non-empty collection.", ()->
-			collection = new MutableCollection [3, 8, -2]
-			expect(collection.first()).toEqual 3
+			expect(collection.first()).toEqual values[0]
 
 	describe "Last", ()->
 
 		it "throws 'Index out of range.' for an empty collection.", ()->
-			collection = new MutableCollection []
-			tryToGetLastFromEmptyCollection = ()->
-				collection.last()
-			expect(tryToGetLastFromEmptyCollection).toThrow "Index out of range."
+			expect(()->emptyCollection.last()).toThrow "Index out of range."
 
 		it "returns the last value of a non-empty collection.", ()->
-			collection = new MutableCollection [6, -3, 0, 4]
-			expect(collection.last()).toEqual 4
+			expect(collection.last()).toEqual values[values.length-1]
 
 	describe "Join", ()->
 
 		it "returns an empty string for an empty collection.", ()->
-			collection = new MutableCollection []
-			expect(collection.join()).toEqual ""
+			expect(emptyCollection.join()).toEqual ""
 
 		it "uses a comma as standard separator.", ()->
-			collection = new MutableCollection [5, 2, 0]
-			expect(collection.join()).toEqual "5,2,0"
+			expect(collection.join()).toEqual values.join ","
 
 		it "lets the client choose another separator.", ()->
-			collection = new MutableCollection [8, 2, 0]
-			expect(collection.join "; ").toEqual "8; 2; 0"
+			sep = "; "
+			expect(collection.join sep).toEqual values.join sep
 
 	describe "Contains", ()->
 
 		it "returns false if the item is not contained in the collection.", ()->
-			collection = new MutableCollection [false, null, 1]
-			expect(collection.contains 0).toEqual false
+			expect(collection.contains -1.234).toEqual false
 
 		it "returns true if the item is contained in the collection.", ()->
-			collection = new MutableCollection [8, "hello"]
-			expect(collection.contains 8).toEqual true
+			expect(collection.contains values[1]).toEqual true
 
 	describe "Every", ()->
 
 		it "returns true for an empty collection.", ()->
-			collection = new MutableCollection []
-			expect(collection.every(()->)).toBeTruthy()
+			expect(emptyCollection.every ()->).toBeTruthy()
 
 		it "returns true if all items comply with the predicate.", ()->
-			collection = new MutableCollection [8, 2, -4, -10]
-			even = (n)->
-				n % 2 == 0
-			expect(collection.every even).toEqual true
+			expect(collection.every ()->true).toEqual true
 
 		it "returns false if any item does not comply with the predicate.", ()->
-			collection = new MutableCollection [4, 0, 3, -2, -8]
-			even = (n)->
-				n % 2 == 0
-			expect(collection.every even).toEqual false
+			calls = 0
+			expect(collection.every ()->calls++ is 2).toEqual false
 
 		it "calls the predicate with the index as second argument.", ()->
-			values = [0, 5, -3, -2, 1, 9]
-			collection = new MutableCollection values
 			secondArgs = []
 			pred = (value, index)->
 				secondArgs.push index
+				true
 			collection.every pred
 			expect(secondArgs).toEqual [0..values.length-1]
 
 		it "calls the predicate with the collection as third argument.", ()->
-			collection = new MutableCollection [4, 1, 0, 8]
 			allThirdArgsAreTheCollection = true
 			pred = (value, index, thirdArg)->
 				if thirdArg isnt collection
 					allThirdArgsAreTheCollection = false
+				true
 			collection.every pred
 			expect(allThirdArgsAreTheCollection).toEqual true
 
 		it "calls the predicate within an optional context.", ()->
-			values = [8, -5, 3, 2, -1, 0]
-			collection = new MutableCollection values
 			context = {}
 			allThisArgsAreContext = true
 			pred = (value, index)->
 				if @ isnt context
 					allThisArgsAreContext = false
+				true
 			collection.every pred, context
 			expect(allThisArgsAreContext).toBeTruthy()
 
 	describe "Some", ()->
 
 		it "returns false for an empty collection.", ()->
-			collection = new MutableCollection []
-			expect(collection.some ()->).toEqual false
+			expect(emptyCollection.some ()->).toEqual false
 
 		it "returns true if some items conform to the predicate.", ()->
-			collection = new MutableCollection [8, 3, -1, 0, 5]
-			even = (n)->
-				n%2 == 0
-			expect(collection.some even).toEqual true
+			calls = 0
+			expect(collection.some ()->calls++ is 2).toEqual true
 
 		it "returns false if no item conforms to the predicate.", ()->
-			collection = new MutableCollection [-7, 3, 5, -1]
-			even = (n)->
-				n%2 == 0
-			expect(collection.some even).toEqual false
+			expect(collection.some ()->false).toEqual false
 
 		it "calls the predicate with the index as second argument.", ()->
-			values = [8, -3, 4, -4, 9]
-			collection = new MutableCollection values
 			secondArgs = []
 			pred = (value, index)->
 				secondArgs.push index
@@ -155,7 +128,6 @@ describe "Standard methods", ()->
 			expect(secondArgs).toEqual [0..values.length-1]
 
 		it "calls the predicate with the collection as third argument.", ()->
-			collection = new MutableCollection [0, 4, 1, 3]
 			allThirdArgumentsAreTheCollection = true
 			pred = (value, index, thirdArgument)->
 				if thirdArgument isnt collection
@@ -167,7 +139,6 @@ describe "Standard methods", ()->
 		it "calls the predicate with an optional context.", ()->
 			context = {}
 			allThisArgsWereContext = true
-			collection = new MutableCollection [7, 3, 1, 0, 8]
 			pred = ()->
 				if @ isnt context
 					allThisArgsWereContext = false
