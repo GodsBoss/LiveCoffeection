@@ -306,3 +306,36 @@ describe "Standard transformations.", ()->
 		it "returns the collection in reverse order.", ()->
 			reversedValues = values.slice().reverse()
 			expect(collection.reverse().values()).toEqual reversedValues
+
+	describe "Map", ()->
+
+		it "converts every element according to the given function.", ()->
+			f = (n)->
+				n*n
+			squaredValues = values.map f
+			expect(collection.map(f).values()).toEqual squaredValues
+
+		it "is called in an optional context.", ()->
+			obj = {}
+			allThissAreObj = true
+			f = (x)->
+				if @ isnt obj
+					allThissAreObj = false
+			collection.map(f, obj).values()
+			expect(allThissAreObj).toBeTruthy()
+
+	it "lets the callback be called with the index as second argument.", ()->
+		secondArgs = []
+		f = (value, index)->
+			secondArgs.push index
+		collection.map(f).values()
+		expect(secondArgs).toEqual [0..values.length-1]
+
+	it "lets the callback be called with the collection as third argument.", ()->
+		allThirdArgumentsAreTheCollection = true
+		f = (value, index, thirdArg)->
+			if thirdArg isnt collection
+				allThirdArgumentsAreTheCollection = false
+			value
+		collection.map(f).values()
+		expect(allThirdArgumentsAreTheCollection).toBeTruthy()

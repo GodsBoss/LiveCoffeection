@@ -69,3 +69,8 @@ extend = (LiveCollection)->
 
 	LiveCollection.addTransformer "reverse", ()->
 		@values().reverse()
+
+	LiveCollection.addTransformer "map", (f, thisArg = null)->
+		values = @values()
+		for index in [0..values.length-1]
+			f.call thisArg, values[index], index, @
