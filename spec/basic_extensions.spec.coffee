@@ -300,3 +300,9 @@ describe "Standard transformations.", ()->
 
 		it "takes all items if more are to be taken than are contained.", ()->
 			expect(collection.tail(8).values()).toEqual values
+
+	describe "Reverse", ()->
+
+		it "returns the collection in reverse order.", ()->
+			reversedValues = values.slice().reverse()
+			expect(collection.reverse().values()).toEqual reversedValues

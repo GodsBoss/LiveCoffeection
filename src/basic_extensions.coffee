@@ -66,3 +66,6 @@ extend = (LiveCollection)->
 
 	LiveCollection.addTransformer "tail", (length)->
 		@values().slice Math.max 0, @values().length-length
+
+	LiveCollection.addTransformer "reverse", ()->
+		@values().reverse()
