@@ -339,3 +339,34 @@ describe "Standard transformations.", ()->
 			value
 		collection.map(f).values()
 		expect(allThirdArgumentsAreTheCollection).toBeTruthy()
+
+	describe "Filter", ()->
+
+		it "contains only the elements for which the predicate holds true.", ()->
+			even = (n)->
+				n % 2 == 0
+			expect(collection.filter(even).values()).toEqual values.filter even
+
+		it "lets the predicate be called with the index as second argument.", ()->
+			secondArgs = []
+			pred = (value, index)->
+				secondArgs.push index
+			collection.filter(pred).values()
+			expect(secondArgs).toEqual [0..values.length-1]
+
+		it "is called within an optional context.", ()->
+			context = {}
+			allThisValuesWereContext = true
+			pred = ()->
+				if @ isnt context
+					allThisValuesWereContext = false
+			collection.filter(pred, context).values()
+			expect(allThisValuesWereContext).toBeTruthy()
+
+		it "lets the predicate be called with the collection as third arg.", ()->
+			allThirdArgumentsWereTheCollection = true
+			pred = (value, index, thirdArgument)->
+				if thirdArgument isnt collection
+					allThirdArgumentsWereTheCollection = false
+			collection.filter(pred).values()
+			expect(allThirdArgumentsWereTheCollection).toBeTruthy()

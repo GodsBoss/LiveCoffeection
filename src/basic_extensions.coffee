@@ -74,3 +74,11 @@ extend = (LiveCollection)->
 		values = @values()
 		for index in [0..values.length-1]
 			f.call thisArg, values[index], index, @
+
+	LiveCollection.addTransformer "filter", (p, context = null)->
+		result = []
+		values = @values()
+		for index in [0..values.length-1]
+			if p.call context, values[index], index, @
+				result.push values[index]
+		result
