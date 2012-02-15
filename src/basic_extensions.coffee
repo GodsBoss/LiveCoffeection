@@ -38,17 +38,10 @@ extend = (LiveCollection)->
 				return true
 		false
 
-	LiveCollection.addMutator "pop", (data)->
-		data.pop()
-
-	LiveCollection.addMutator "shift", (data)->
-		data.shift()
-
-	LiveCollection.addMutator "push", (data, value)->
-		data.push value
-
-	LiveCollection.addMutator "unshift", (data, value)->
-		data.unshift value
+	for mutator in ["pop", "shift", "push", "unshift"]
+		LiveCollection.addMutator mutator, ((m)->
+			(data, args...)->
+				data[m].apply data, args)(mutator)
 
 	LiveCollection.addMutator "clear", (data)->
 		data.length = 0
