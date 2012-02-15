@@ -23,6 +23,14 @@ extend = (LiveCollection)->
 	LiveCollection.addMethod "contains", (item)->
 		item in @values()
 
+	LiveCollection.addMethod "every", (predicate, context = null)->
+		values = @values()
+		if values.length > 0
+			for index in [0..values.length-1]
+				if not predicate.call context, values[index], index, @
+					return false
+		true
+
 	LiveCollection.addMutator "pop", (data)->
 		data.pop()
 

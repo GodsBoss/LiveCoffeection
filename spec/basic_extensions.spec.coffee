@@ -79,6 +79,53 @@ describe "Standard methods", ()->
 			collection = new MutableCollection [8, "hello"]
 			expect(collection.contains 8).toEqual true
 
+	describe "Every", ()->
+
+		it "returns true for an empty collection.", ()->
+			collection = new MutableCollection []
+			expect(collection.every(()->)).toBeTruthy()
+
+		it "returns true if all items comply with the predicate.", ()->
+			collection = new MutableCollection [8, 2, -4, -10]
+			even = (n)->
+				n % 2 == 0
+			expect(collection.every even).toEqual true
+
+		it "returns false if any item does not comply with the predicate.", ()->
+			collection = new MutableCollection [4, 0, 3, -2, -8]
+			even = (n)->
+				n % 2 == 0
+			expect(collection.every even).toEqual false
+
+		it "calls the predicate with the index as second argument.", ()->
+			values = [0, 5, -3, -2, 1, 9]
+			collection = new MutableCollection values
+			secondArgs = []
+			pred = (value, index)->
+				secondArgs.push index
+			collection.every pred
+			expect(secondArgs).toEqual [0..values.length-1]
+
+		it "calls the predicate with the collection as third argument.", ()->
+			collection = new MutableCollection [4, 1, 0, 8]
+			allThirdArgsAreTheCollection = true
+			pred = (value, index, thirdArg)->
+				if thirdArg isnt collection
+					allThirdArgsAreTheCollection = false
+			collection.every pred
+			expect(allThirdArgsAreTheCollection).toEqual true
+
+		it "calls the predicate within an optional context.", ()->
+			values = [8, -5, 3, 2, -1, 0]
+			collection = new MutableCollection values
+			context = {}
+			allThisArgsAreContext = true
+			pred = (value, index)->
+				if @ isnt context
+					allThisArgsAreContext = false
+			collection.every pred, context
+			expect(allThisArgsAreContext).toBeTruthy()
+
 describe "Standard mutators", ()->
 
 	describe "Pop", ()->
