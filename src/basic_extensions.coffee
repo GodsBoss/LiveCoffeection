@@ -31,6 +31,13 @@ extend = (LiveCollection)->
 					return false
 		true
 
+	LiveCollection.addMethod "some", (predicate, context = null)->
+		values = @values()
+		for index in [0..values.length-1]
+			if predicate.call context, values[index], index, @
+				return true
+		false
+
 	LiveCollection.addMutator "pop", (data)->
 		data.pop()
 
